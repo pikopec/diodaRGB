@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="D:\PracaInz\kod\bt1\BluetoothChat\Application\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="8413c27b45b7fe61dca4a98159f65e2cee215f5a">
+        <dex dex="D:\PracaInz\kod\bt1\BluetoothChat\Application\build\intermediates\pre-dexed\debug\classes-c274706a2e322b256702dd78d93669a16ca29993.jar" />
+    </item>
+    <item
+        jar="D:\PracaInz\kod\bt1\BluetoothChat\Application\build\intermediates\exploded-aar\com.android.support\gridlayout-v7\23.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="1618fd467fb5971c394741e8976ededb97aaee0a">
+        <dex dex="D:\PracaInz\kod\bt1\BluetoothChat\Application\build\intermediates\pre-dexed\debug\classes-2633f4b74d4d16eea4d9dfcaf57dd7d177ecaa40.jar" />
+    </item>
+    <item
+        jar="D:\PracaInz\kod\bt1\BluetoothChat\Application\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="1ccbc26be2c465c622a48310e8092241b01abe80">
+        <dex dex="D:\PracaInz\kod\bt1\BluetoothChat\Application\build\intermediates\pre-dexed\debug\classes-708bd35ad69eeb1e944a9fc9eabee998cd6f72af.jar" />
+    </item>
+    <item
+        jar="D:\PracaInz\kod\bt1\BluetoothChat\Application\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.0\jars\libs\internal_impl-23.0.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="8bd336eeae661e8311330284897ee07f8ebaa297">
+        <dex dex="D:\PracaInz\kod\bt1\BluetoothChat\Application\build\intermediates\pre-dexed\debug\internal_impl-23.0.0-3c120bb814c71e9bacf900035b78d6c3097c738f.jar" />
+    </item>
+    <item
+        jar="C:\Users\Maciej\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.0\support-annotations-23.0.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="990e7f98a7bad86a40b1f0bcfeb039023afd0839">
+        <dex dex="D:\PracaInz\kod\bt1\BluetoothChat\Application\build\intermediates\pre-dexed\debug\support-annotations-23.0.0-82bdab1087fce37d4c7f3d5f0222051c5d6b975b.jar" />
+    </item>
+
+</items>
