@@ -30,6 +30,7 @@ import com.example.android.common.logger.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.UUID;
 
 /**
@@ -40,6 +41,7 @@ import java.util.UUID;
  */
 public class BluetoothChatService {
     // Debugging
+    static byte licznik = 1;
     private static final String TAG = "BluetoothChatService";
 
     // Name for the SDP record when creating server socket
@@ -495,8 +497,10 @@ public class BluetoothChatService {
          */
         public void write(byte[] buffer) {
             try {
-                mmOutStream.write(buffer);
-
+                byte[] tab = new byte[5808];
+                Arrays.fill(tab, licznik);
+                mmOutStream.write(tab);
+                licznik++;
                 // Share the sent message back to the UI Activity
                 mHandler.obtainMessage(Constants.MESSAGE_WRITE, -1, -1, buffer)
                         .sendToTarget();
