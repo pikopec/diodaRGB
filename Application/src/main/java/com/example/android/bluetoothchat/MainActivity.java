@@ -17,10 +17,18 @@
 
 package com.example.android.bluetoothchat;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ViewAnimator;
 
 import com.example.android.common.activities.SampleActivityBase;
@@ -29,24 +37,25 @@ import com.example.android.common.logger.LogFragment;
 import com.example.android.common.logger.LogWrapper;
 import com.example.android.common.logger.MessageOnlyLogFilter;
 
-/**
- * A simple launcher activity containing a summary sample description, sample log and a custom
- * {@link android.support.v4.app.Fragment} which can display a view.
- * <p>
- * For devices with displays with a width of 720dp or greater, the sample log is always visible,
- * on other devices it's visibility is controlled by an item on the Action Bar.
- */
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
 public class MainActivity extends SampleActivityBase {
-
+    private static final int SELECT_PHOTO = 100;
     public static final String TAG = "MainActivity";
-
-    // Whether the Log Fragment is currently shown
+    public static byte[] pictureBytes = new byte[5808];
+    ImageView imageView;
     private boolean mLogShown;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        imageView = (ImageView)findViewById(R.id.imageView);
+
 
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -56,55 +65,133 @@ public class MainActivity extends SampleActivityBase {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+
+    public void choosePic(View view) {
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
     }
-
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem logToggle = menu.findItem(R.id.menu_toggle_log);
-        logToggle.setVisible(findViewById(R.id.sample_output) instanceof ViewAnimator);
-        logToggle.setTitle(mLogShown ? R.string.sample_hide_log : R.string.sample_show_log);
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
-        return super.onPrepareOptionsMenu(menu);
-    }
+        switch(requestCode) {
+            case SELECT_PHOTO:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    InputStream imageStream = null;
+                    try {
+                        imageStream = getContentResolver().openInputStream(selectedImage);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    Bitmap yourSelectedImage = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(imageStream), 264, 176, false);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case R.id.menu_toggle_log:
-                mLogShown = !mLogShown;
-                ViewAnimator output = (ViewAnimator) findViewById(R.id.sample_output);
-                if (mLogShown) {
-                    output.setDisplayedChild(1);
-                } else {
-                    output.setDisplayedChild(0);
+                    for (int i=0; i<176; i++){
+                        for (int j=0; j<33; j++){
+                            String tempString = "";
+                            for (int k=0; k<8; k++){
+                                int color = yourSelectedImage.getPixel(j * 8 + k, i); //magia: j - numer bajtu, k - numer bitu
+                                int green = Color.green(color);
+                                int blue = Color.blue(color);
+                                int red = Color.red(color);
+
+                                if(green+blue+red<330){
+                                    tempString += "0";
+                                    yourSelectedImage.setPixel(j * 8 + k, i, Color.BLACK);
+                                } else {
+                                    tempString += "1";
+                                    yourSelectedImage.setPixel(j * 8 + k, i, Color.WHITE);
+                                }
+                            }
+                            byte b = (byte)Integer.parseInt(tempString, 2);
+                            Log.d("tag", tempString + " " + b);
+
+                            pictureBytes[i*33 + j] = b;    //magia: przejscie z tablicy 2d na 1d
+                        }
+                    }
+
+
+
+
+                    imageView.setImageBitmap(yourSelectedImage);
+
                 }
-                supportInvalidateOptionsMenu();
-                return true;
         }
-        return super.onOptionsItemSelected(item);
     }
 
-    /** Create a chain of targets that will receive log data */
-    @Override
-    public void initializeLogging() {
-        // Wraps Android's native log framework.
-        LogWrapper logWrapper = new LogWrapper();
-        // Using Log, front-end to the logging chain, emulates android.util.log method signatures.
-        Log.setLogNode(logWrapper);
-
-        // Filter strips out everything except the message text.
-        MessageOnlyLogFilter msgFilter = new MessageOnlyLogFilter();
-        logWrapper.setNext(msgFilter);
-
-        // On screen logging via a fragment with a TextView.
-        LogFragment logFragment = (LogFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.log_fragment);
-        msgFilter.setNext(logFragment.getLogView());
-
-        Log.i(TAG, "Ready");
+    static String getHex(int [] array, int mode){
+        int x=0;
+        if (mode==1) x+=4;
+        if (array[x]==0 && array[x+1]==0 && array[x+2]==0 && array[x+3]==0) return "0";
+        else if (array[x]==0 && array[x+1]==0 && array[x+2]==0 && array[x+3]==1) return "1";
+        else if (array[x]==0 && array[x+1]==0 && array[x+2]==1 && array[x+3]==0) return "2";
+        else if (array[x]==0 && array[x+1]==0 && array[x+2]==1 && array[x+3]==1) return "3";
+        else if (array[x]==0 && array[x+1]==1 && array[x+2]==0 && array[x+3]==0) return "4";
+        else if (array[x]==0 && array[x+1]==1 && array[x+2]==0 && array[x+3]==1) return "5";
+        else if (array[x]==0 && array[x+1]==1 && array[x+2]==1 && array[x+3]==0) return "6";
+        else if (array[x]==0 && array[x+1]==1 && array[x+2]==1 && array[x+3]==1) return "7";
+        else if (array[x]==1 && array[x+1]==0 && array[x+2]==0 && array[x+3]==0) return "8";
+        else if (array[x]==1 && array[x+1]==0 && array[x+2]==0 && array[x+3]==1) return "9";
+        else if (array[x]==1 && array[x+1]==0 && array[x+2]==1 && array[x+3]==0) return "A";
+        else if (array[x]==1 && array[x+1]==0 && array[x+2]==1 && array[x+3]==1) return "B";
+        else if (array[x]==1 && array[x+1]==1 && array[x+2]==0 && array[x+3]==0) return "C";
+        else if (array[x]==1 && array[x+1]==1 && array[x+2]==0 && array[x+3]==1) return "D";
+        else if (array[x]==1 && array[x+1]==1 && array[x+2]==1 && array[x+3]==0) return "E";
+        else return "F";
     }
+
+
+
 }
+//public class a {
+//    public static void main(String [] args){
+//        BufferedImage img = null;
+//        int rgb;
+//        int red;
+//        int green;
+//        int blue;
+//        try {
+//            img = ImageIO.read(new File("pos.bmp"));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        BufferedImage image = new BufferedImage(264,176, BufferedImage.TYPE_INT_RGB);
+//
+//        for (int i=0; i<264; i++){
+//            for (int j=0; j<176; j++){
+//                rgb = img.getRGB(i, j);
+//                red = (rgb >> 16 ) & 0x000000FF;
+//                green = (rgb >> 8 ) & 0x000000FF;
+//                blue = (rgb) & 0x000000FF;
+//                if(green+blue+red<330){
+//                    image.setRGB(i, j, Color.BLACK.getRGB());
+//                } else {
+//                    image.setRGB(i, j, Color.WHITE.getRGB());
+//                }
+//            }
+//        }
+//
+//
+//
+//        for(int y=0; y<176; y++){
+//            for(int x=0; x<264; x+=8){
+//                int [] tempTable = new int[8];
+//                for (int i=0; i<8; i++){
+//                    if (image.getRGB(x+i, y)==Color.BLACK.getRGB()){
+//                        tempTable[i] = 0;
+//                    } else {
+//                        tempTable[i] = 1;
+//                    }
+//                }
+//
+//                String hex1 = getHex(0, y, tempTable, 0);
+//                String hex2 = getHex(0, y, tempTable, 1);
+//                String dwaHexy = hex1 + hex2;
+//                System.out.print("(byte)0x" + dwaHexy + ", ");
+//            }
+//            System.out.println();
+//        }
+//
+//
+//    }

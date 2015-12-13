@@ -15,8 +15,6 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/menu_toggle_log"
-          android:showAsAction="always"
-          android:title="@string/sample_show_log" />
+
 </menu>
 <!-- From: file:/D:/PracaInz/kod/bt1/BluetoothChat/Application/src/main/res/menu/main.xml -->
