@@ -23,22 +23,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ViewAnimator;
 
 import com.example.android.common.activities.SampleActivityBase;
 import com.example.android.common.logger.Log;
-import com.example.android.common.logger.LogFragment;
-import com.example.android.common.logger.LogWrapper;
-import com.example.android.common.logger.MessageOnlyLogFilter;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 
 public class MainActivity extends SampleActivityBase {
@@ -144,54 +136,3 @@ public class MainActivity extends SampleActivityBase {
 
 
 }
-//public class a {
-//    public static void main(String [] args){
-//        BufferedImage img = null;
-//        int rgb;
-//        int red;
-//        int green;
-//        int blue;
-//        try {
-//            img = ImageIO.read(new File("pos.bmp"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        BufferedImage image = new BufferedImage(264,176, BufferedImage.TYPE_INT_RGB);
-//
-//        for (int i=0; i<264; i++){
-//            for (int j=0; j<176; j++){
-//                rgb = img.getRGB(i, j);
-//                red = (rgb >> 16 ) & 0x000000FF;
-//                green = (rgb >> 8 ) & 0x000000FF;
-//                blue = (rgb) & 0x000000FF;
-//                if(green+blue+red<330){
-//                    image.setRGB(i, j, Color.BLACK.getRGB());
-//                } else {
-//                    image.setRGB(i, j, Color.WHITE.getRGB());
-//                }
-//            }
-//        }
-//
-//
-//
-//        for(int y=0; y<176; y++){
-//            for(int x=0; x<264; x+=8){
-//                int [] tempTable = new int[8];
-//                for (int i=0; i<8; i++){
-//                    if (image.getRGB(x+i, y)==Color.BLACK.getRGB()){
-//                        tempTable[i] = 0;
-//                    } else {
-//                        tempTable[i] = 1;
-//                    }
-//                }
-//
-//                String hex1 = getHex(0, y, tempTable, 0);
-//                String hex2 = getHex(0, y, tempTable, 1);
-//                String dwaHexy = hex1 + hex2;
-//                System.out.print("(byte)0x" + dwaHexy + ", ");
-//            }
-//            System.out.println();
-//        }
-//
-//
-//    }
