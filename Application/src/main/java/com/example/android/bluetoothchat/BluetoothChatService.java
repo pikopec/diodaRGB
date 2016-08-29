@@ -193,13 +193,13 @@ public class BluetoothChatService {
     }
 
 
-    public void write() {
+    public void write(byte b) {
         ConnectedThread r;
         synchronized (this) {
             if (mState != STATE_CONNECTED) return;
             r = mConnectedThread;
         }
-        r.write();
+        r.write(b);
     }
 
     /**
@@ -341,10 +341,10 @@ public class BluetoothChatService {
             }
         }
 
-        public void write() {
+        public void write(byte b) {
             try {
 
-                mmOutStream.write(MainActivity.pictureBytes);
+                mmOutStream.write(b);
 
             } catch (IOException e) {
                 Log.e(TAG, "Exception during write", e);

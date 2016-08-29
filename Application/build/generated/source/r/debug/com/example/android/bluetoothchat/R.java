@@ -277,6 +277,9 @@ containing a value of this type.
         public static final int alignMargins=0x7f090003;
         public static final int bottom=0x7f090004;
         public static final int button=0x7f090019;
+        public static final int button_blue=0x7f09001e;
+        public static final int button_green=0x7f09001d;
+        public static final int button_red=0x7f09001c;
         public static final int button_scan=0x7f090016;
         public static final int button_send=0x7f09001b;
         public static final int center=0x7f090005;
@@ -296,7 +299,7 @@ containing a value of this type.
         public static final int right=0x7f09000f;
         public static final int sample_content_fragment=0x7f090018;
         public static final int sample_main_layout=0x7f090017;
-        public static final int secure_connect_scan=0x7f09001c;
+        public static final int secure_connect_scan=0x7f09001f;
         public static final int start=0x7f090010;
         public static final int title_new_devices=0x7f090014;
         public static final int title_paired_devices=0x7f090012;

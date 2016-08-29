@@ -58,6 +58,9 @@ public class BluetoothChatFragment extends Fragment {
 
     // Layout Views
     private Button mSendButton;
+    private Button red;
+    private Button green;
+    private Button blue;
 
     private String mConnectedDeviceName = null;
     private ArrayAdapter<String> mConversationArrayAdapter;
@@ -116,6 +119,9 @@ public class BluetoothChatFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         mSendButton = (Button) view.findViewById(R.id.button_send);
+        red = (Button) view.findViewById(R.id.button_red);
+        green = (Button) view.findViewById(R.id.button_green);
+        blue = (Button) view.findViewById(R.id.button_blue);
     }
 
     private void setupChat() {
@@ -125,10 +131,37 @@ public class BluetoothChatFragment extends Fragment {
             public void onClick(View v) {
                 View view = getView();
                 if (null != view) {
-                    sendMessage();
+                    //sendMessage();
                 }
             }
         });
+
+        red.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                View view = getView();
+                if (null != view) {
+                    sendMessage((byte)49);
+                }
+            }
+        });
+        green.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                View view = getView();
+                if (null != view) {
+                    sendMessage((byte)50);
+                }
+            }
+        });
+        blue.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                View view = getView();
+                if (null != view) {
+                    sendMessage((byte)51);
+                }
+            }
+        });
+
+
 
         mChatService = new BluetoothChatService(getActivity(), mHandler);
         mOutStringBuffer = new StringBuffer("");
@@ -142,24 +175,24 @@ public class BluetoothChatFragment extends Fragment {
         }
     }
 
-    private void sendMessage() {
+    private void sendMessage(byte b) {
         if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
             Toast.makeText(getActivity(), R.string.not_connected, Toast.LENGTH_SHORT).show();
             return;
         }
-            mChatService.write();
+            mChatService.write(b);
             mOutStringBuffer.setLength(0);
     }
 
-    private TextView.OnEditorActionListener mWriteListener
-            = new TextView.OnEditorActionListener() {
-        public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
-            if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_UP) {
-                sendMessage();
-            }
-            return true;
-        }
-    };
+//    private TextView.OnEditorActionListener mWriteListener
+//            = new TextView.OnEditorActionListener() {
+//        public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
+//            if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_UP) {
+//                sendMessage();
+//            }
+//            return true;
+//        }
+//    };
 
     private void setStatus(int resId) {
         FragmentActivity activity = getActivity();

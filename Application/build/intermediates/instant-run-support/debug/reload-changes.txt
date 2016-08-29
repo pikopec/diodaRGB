@@ -1,0 +1,4 @@
+CHANGED,D:\moje_projekty\LED_andr\bt-apka-na-androida\Application\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\example\android\bluetoothchat\BluetoothChatFragment$3$override.class
+CHANGED,D:\moje_projekty\LED_andr\bt-apka-na-androida\Application\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\android\tools\fd\runtime\AppPatchesLoaderImpl.class
+CHANGED,D:\moje_projekty\LED_andr\bt-apka-na-androida\Application\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\example\android\bluetoothchat\BluetoothChatFragment$2$override.class
+CHANGED,D:\moje_projekty\LED_andr\bt-apka-na-androida\Application\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\example\android\bluetoothchat\BluetoothChatFragment$4$override.class

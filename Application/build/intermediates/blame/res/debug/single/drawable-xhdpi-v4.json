@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "D:\\moje_projekty\\LED_andr\\bt-apka-na-androida\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\ic_action_device_access_bluetooth_searching.png",
+        "source": "D:\\moje_projekty\\LED_andr\\bt-apka-na-androida\\Application\\src\\main\\res\\drawable-xhdpi\\ic_action_device_access_bluetooth_searching.png"
+    },
+    {
+        "merged": "D:\\moje_projekty\\LED_andr\\bt-apka-na-androida\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\ic_launcher.png",
+        "source": "D:\\moje_projekty\\LED_andr\\bt-apka-na-androida\\Application\\src\\main\\res\\drawable-xhdpi\\ic_launcher.png"
+    }
+]
