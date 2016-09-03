@@ -23,10 +23,12 @@ Po³¹czenia Mikroprocesora
 - P2.1 do bazy tranzystora steruj¹cego B+ diody przez rezystor 1kOhm
 
 Dodatkowo
+
 - VCC Bluetootha do 3,3V
 - GND Bluetootha do GND
 
 Tranzystory
+
 - Emiter do 3,3V
 - Kolektor do odpowiedniej diody (do +) przez rezystor 22Ohm
 - Wszystkie (-) diod do masy
