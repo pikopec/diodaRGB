@@ -21,6 +21,8 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -39,6 +41,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,12 +64,21 @@ public class BluetoothChatFragment extends Fragment {
     private Button red;
     private Button green;
     private Button blue;
+    private SeekBar czerwony;
+    private SeekBar zielony;
+    private SeekBar niebieski;
+    private TextView testText;
+
+    private Byte mRedValue = 0;
+    private Byte mGreenValue = 0;
+    private Byte mBlueValue = 0;
 
     private String mConnectedDeviceName = null;
     private ArrayAdapter<String> mConversationArrayAdapter;
     private StringBuffer mOutStringBuffer;
     private BluetoothAdapter mBluetoothAdapter = null;
     private BluetoothChatService mChatService = null;
+    private Toast mToast;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,7 +88,8 @@ public class BluetoothChatFragment extends Fragment {
 
         if (mBluetoothAdapter == null) {
             FragmentActivity activity = getActivity();
-            Toast.makeText(activity, "Bluetooth is not available", Toast.LENGTH_LONG).show();
+            if (mToast != null) mToast.cancel();
+            mToast.makeText(activity, "Bluetooth is not available", Toast.LENGTH_LONG).show();
             activity.finish();
         }
     }
@@ -122,6 +135,20 @@ public class BluetoothChatFragment extends Fragment {
         red = (Button) view.findViewById(R.id.button_red);
         green = (Button) view.findViewById(R.id.button_green);
         blue = (Button) view.findViewById(R.id.button_blue);
+        czerwony = (SeekBar) view.findViewById(R.id.seekBar);
+        zielony = (SeekBar) view.findViewById(R.id.seekBar2);
+        niebieski = (SeekBar) view.findViewById(R.id.seekBar3);
+        testText = (TextView) view.findViewById(R.id.tescik);
+
+
+        czerwony.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+        czerwony.getThumb().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+
+        zielony.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+        zielony.getThumb().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+
+        niebieski.getProgressDrawable().setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_IN);
+        niebieski.getThumb().setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_IN);
     }
 
     private void setupChat() {
@@ -136,6 +163,72 @@ public class BluetoothChatFragment extends Fragment {
             }
         });
 
+
+        czerwony.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                // TODO Auto-generated method stub
+                mRedValue = (byte) progress;
+                //testText.setText(mRedValue.toString() + "byte");
+                sendMessage();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        zielony.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                // TODO Auto-generated method stub
+                mGreenValue = (byte) progress;
+                sendMessage();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        niebieski.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                // TODO Auto-generated method stub
+                mBlueValue = (byte) progress;
+                sendMessage();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+/*
         red.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 View view = getView();
@@ -161,7 +254,7 @@ public class BluetoothChatFragment extends Fragment {
             }
         });
 
-
+*/
 
         mChatService = new BluetoothChatService(getActivity(), mHandler);
         mOutStringBuffer = new StringBuffer("");
@@ -175,24 +268,34 @@ public class BluetoothChatFragment extends Fragment {
         }
     }
 
-    private void sendMessage(byte b) {
+    private void sendMessage(Byte b) {
         if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
-            Toast.makeText(getActivity(), R.string.not_connected, Toast.LENGTH_SHORT).show();
+            if (mToast != null) mToast.cancel();
+            mToast.makeText(getActivity(), R.string.not_connected, Toast.LENGTH_SHORT).show();
             return;
         }
+        Log.d(TAG, "sending byte" + b.toString() );
             mChatService.write(b);
             mOutStringBuffer.setLength(0);
     }
 
-//    private TextView.OnEditorActionListener mWriteListener
-//            = new TextView.OnEditorActionListener() {
-//        public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
-//            if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_UP) {
-//                sendMessage();
-//            }
-//            return true;
-//        }
-//    };
+    private void sendMessage() {
+        if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
+            if (mToast != null) mToast.cancel();
+            mToast = Toast.makeText(getActivity(), R.string.not_connected, Toast.LENGTH_SHORT);
+            mToast.show();
+            return;
+        }
+        mChatService.write(mRedValue);
+        mOutStringBuffer.setLength(0);
+
+        mChatService.write(mGreenValue);
+        mOutStringBuffer.setLength(0);
+
+        mChatService.write(mBlueValue);
+        mOutStringBuffer.setLength(0);
+    }
+    
 
     private void setStatus(int resId) {
         FragmentActivity activity = getActivity();
@@ -285,7 +388,8 @@ public class BluetoothChatFragment extends Fragment {
                     setupChat();
                 } else {
                     Log.d(TAG, "BT not enabled");
-                    Toast.makeText(getActivity(), R.string.bt_not_enabled_leaving,
+                    if (mToast != null) mToast.cancel();
+                    mToast.makeText(getActivity(), R.string.bt_not_enabled_leaving,
                             Toast.LENGTH_SHORT).show();
                     getActivity().finish();
                 }
