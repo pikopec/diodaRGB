@@ -8,7 +8,9 @@ Hardware
 ------------
 
 Do wykonania projektu u¿yty zosta³ mikroprocesor MSP430G2553 i modu³ Bluetooth BTM222.
+
 Dioda RGB jest sterowana za pomoc¹ tranzystorów pnp. Napiêcie zasilania wynosi 3,3V.
+
 Do zasilania uk³adu z akumulatora samochodowego zosta³a zastosowana przetwornica step-down 12V -> 3,3V.
 
 
@@ -43,3 +45,12 @@ Obs³uga
 - Je¿eli modu³ bluetooth jest wy³¹czony akceptowaæ zapytanie o aktywacjê
 - Z listy dostêpnych urz¹dzeñ wybraæ modu³ 
 - Suwakami ustawiæ ¿¹dany kolor
+
+
+
+Kod
+--------------
+
+Kod do mikroprocesora zosta³ do³¹czony do reporzytorium w ./MSP430G2553_code/main.c 
+
+Kod kompilowaæ i wgrywaæ na procesor u¿ywaj¹c Code Composer Studio.
