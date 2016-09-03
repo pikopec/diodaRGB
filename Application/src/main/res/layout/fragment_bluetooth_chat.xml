@@ -19,56 +19,6 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
-        <Button
-            android:id="@+id/button_send"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/send"
-            android:visibility="gone" />
-
-
-        <Button
-            android:id="@+id/button_red"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="8dp"
-            android:text="Red"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/button_green"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="8dp"
-            android:text="Green"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/button_blue"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="8dp"
-            android:text="Blue"
-            android:visibility="gone" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="test"
-            android:id="@+id/tescik"
-            android:visibility="gone"/>
-
-    </LinearLayout>
 
     <SeekBar
         android:id="@+id/seekBar"

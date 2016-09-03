@@ -60,14 +60,10 @@ public class BluetoothChatFragment extends Fragment {
     private static final int REQUEST_ENABLE_BT = 3;
 
     // Layout Views
-    private Button mSendButton;
-    private Button red;
-    private Button green;
-    private Button blue;
     private SeekBar czerwony;
     private SeekBar zielony;
     private SeekBar niebieski;
-    private TextView testText;
+
 
     private Byte mRedValue = 0;
     private Byte mGreenValue = 0;
@@ -131,15 +127,9 @@ public class BluetoothChatFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        mSendButton = (Button) view.findViewById(R.id.button_send);
-        red = (Button) view.findViewById(R.id.button_red);
-        green = (Button) view.findViewById(R.id.button_green);
-        blue = (Button) view.findViewById(R.id.button_blue);
         czerwony = (SeekBar) view.findViewById(R.id.seekBar);
         zielony = (SeekBar) view.findViewById(R.id.seekBar2);
         niebieski = (SeekBar) view.findViewById(R.id.seekBar3);
-        testText = (TextView) view.findViewById(R.id.tescik);
-
 
         czerwony.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
         czerwony.getThumb().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
@@ -154,15 +144,6 @@ public class BluetoothChatFragment extends Fragment {
     private void setupChat() {
         Log.d(TAG, "setupChat()");
         mConversationArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.message);
-        mSendButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                View view = getView();
-                if (null != view) {
-                    //sendMessage();
-                }
-            }
-        });
-
 
         czerwony.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 
@@ -171,7 +152,6 @@ public class BluetoothChatFragment extends Fragment {
                                           boolean fromUser) {
                 // TODO Auto-generated method stub
                 mRedValue = (byte) progress;
-                //testText.setText(mRedValue.toString() + "byte");
                 sendMessage();
             }
 
@@ -228,56 +208,12 @@ public class BluetoothChatFragment extends Fragment {
             }
         });
 
-/*
-        red.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                View view = getView();
-                if (null != view) {
-                    sendMessage((byte)49);
-                }
-            }
-        });
-        green.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                View view = getView();
-                if (null != view) {
-                    sendMessage((byte)50);
-                }
-            }
-        });
-        blue.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                View view = getView();
-                if (null != view) {
-                    sendMessage((byte)51);
-                }
-            }
-        });
 
-*/
 
         mChatService = new BluetoothChatService(getActivity(), mHandler);
         mOutStringBuffer = new StringBuffer("");
     }
-    private void ensureDiscoverable() {
-        if (mBluetoothAdapter.getScanMode() !=
-                BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
-            Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-            discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-            startActivity(discoverableIntent);
-        }
-    }
 
-    private void sendMessage(Byte b) {
-        if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
-            if (mToast != null) mToast.cancel();
-            mToast.makeText(getActivity(), R.string.not_connected, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        Log.d(TAG, "sending byte" + b.toString() );
-            mChatService.write(b);
-            mOutStringBuffer.setLength(0);
-    }
 
     private void sendMessage() {
         if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
@@ -295,7 +231,7 @@ public class BluetoothChatFragment extends Fragment {
         mChatService.write(mBlueValue);
         mOutStringBuffer.setLength(0);
     }
-    
+
 
     private void setStatus(int resId) {
         FragmentActivity activity = getActivity();

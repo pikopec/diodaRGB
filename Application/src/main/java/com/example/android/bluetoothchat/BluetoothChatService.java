@@ -40,7 +40,6 @@ import java.util.UUID;
  * thread for performing data transmissions when connected.
  */
 public class BluetoothChatService {
-    static byte licznik = 3;
     private static final String TAG = "BluetoothChatService";
 
     private static final String NAME_SECURE = "BluetoothChatSecure";
