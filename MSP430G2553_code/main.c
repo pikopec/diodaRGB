@@ -70,6 +70,7 @@ int main(void) {
 
 
     while(1){
+    	/*** Setting PWM Duty to each color according to received values ***/
     	RED_DUTY = ~((color[0]<<8)|(color[0]));		//scaling range 0x00-0xff to 0x0000-0xffff
     	GREEN_DUTY = ~((color[1]<<8)|(color[1]));	//				char size	 compare register size
     	BLUE_DUTY = ~((color[2]<<8)|(color[2]));
@@ -81,9 +82,12 @@ int main(void) {
 
 #pragma vector=USCIAB0RX_VECTOR
 __interrupt void USCI0RX_ISR(void){
+
+	/*** reading bytes from bluetooth to color array (in order R,G,B) **/
     color[btcounter] = UCA0RXBUF;
     btcounter++;
-    if(btcounter == 3) btcounter = 0;
+    if(btcounter == 3) btcounter = 0; // reseting array counter after each message
+    // message sent by app is 3 char long
 
 }
 
